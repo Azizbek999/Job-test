@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.people {
+    background-color: #484848;
+    min-height: 100vh;
+}
+
+.main-user {
+    max-width: 400px;
+    /* background-color: aqua; */
+    height: 100px;
+    margin-top: 30px !important;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.user {
+    margin-left: 20px;
+    height: 60px;
+    width: 500px;
+    display: flex;
+    flex-direction: row;
+}
+
+.status {
+    margin-left: 20px;
+    display: inline-block;
+}
+
+img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid black;
+}
+
+h3 {
+    color: rgb(107, 107, 107);
+}
+
+.make-blue {
+    background-color: #94c1ff;
+    transition: 0.1s ease;
+}
+
+.make-blue:hover {
+    background-color: #b5d4ff;
+
+}
+
+.make-red {
+    background-color: #fda0ff;
+    transition: 0.1s ease;
+}
+
+.make-red:hover {
+    background-color: #fec0ff;
+}

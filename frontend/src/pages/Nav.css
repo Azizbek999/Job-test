@@ -1,0 +1,23 @@
+nav {
+    position: fixed;
+    width: 100%;
+    background-color: rgb(46, 46, 46);
+    height: 40px;
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+}
+
+.nav-link, .logout {
+    color: aliceblue;
+    font-weight: bold;
+    text-decoration: underline;
+    margin: 5px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.logout {
+    color: red !important;
+    margin-right: 20px;
+}
