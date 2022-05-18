@@ -2,8 +2,11 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import { useState, useEffect } from "react";
 import "./account.css"
+import FileBase64 from "react-file-base64"
+
 
 const People = ({ currentUser }) => {
+  const [id, setId] = useState('')
   const [name, setName] = useState('')
   const [nameCurrent, setNameCurrent] = useState('')
   const [email, setEmail] = useState('')
@@ -15,6 +18,7 @@ const People = ({ currentUser }) => {
   // setName(currentUser.name)
 
   useEffect(() => {
+    setId(currentUser._id)
     setName(currentUser.name)
     setNameCurrent(currentUser.name)
     setEmail(currentUser.email)
@@ -31,6 +35,27 @@ const People = ({ currentUser }) => {
     AuthService.logout();
   }
 
+  const handlePatch = async (e) => {
+    console.log(id);
+    e.preventDefault();
+    const id = currentUser._id
+    try {
+      await AuthService.patch(name, email, password, photo, id).then(
+        (response) => {
+          // check for token and user already exists with 200
+          //   console.log("Sign up successfully", response);
+          navigate("/people");
+          window.location.reload();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     < div className="account-main">
       <nav>
@@ -41,22 +66,28 @@ const People = ({ currentUser }) => {
       </nav>
 
       <div className="main">
-        <form >
+        <form onSubmit={handlePatch}>
           <div>
             <aside>
-              <img src="" alt="" />
+              <img src={photo} alt="" />
             </aside>
             <div class="div-form-right">
               <h2>{nameCurrent}</h2>
               <div class="info-section">
-                <button class="btn-secondary">Set a new Photo</button>
+                <FileBase64
+                  type="file"
+                  name="photo"
+                  multiple={false}
+                  onDone={({ base64 }) => setPhoto(base64)}
+                />
+                {/* <button class="btn-secondary">Set a new Photo</button> */}
               </div>
             </div>
           </div>
           <div>
             <aside>Name</aside>
             <div class="div-form-right">
-              <input type="text" name="" id="" value={name} onChange={e => setName(e.target.value)} />
+              <input type="text" name="name" value={name} onChange={e => setName(e.target.value)} />
               <div class="info-section">
                 <div class="info">
                   Help people discover your account by using the name you're
@@ -70,8 +101,7 @@ const People = ({ currentUser }) => {
             <div class="div-form-right">
               <input
                 type="text"
-                name=""
-                id=""
+                name="email"
                 value={email} onChange={e => setEmail(e.target.value)}
               />
               <div class="info-section">
@@ -85,7 +115,7 @@ const People = ({ currentUser }) => {
             <div class="div-form-right">
               <input
                 type="password"
-                name=""
+                name="password"
                 id=""
                 placeholder="Set a New Password"
               />

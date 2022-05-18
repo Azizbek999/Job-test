@@ -3,7 +3,7 @@ import styled from "styled-components"
 import DatePicker from 'react-date-picker';
 import { useNavigate } from "react-router";
 import AuthService from "../services/auth.service";
-
+import FileBase64 from 'react-file-base64';
 
 const Container = styled.div`
   width: 100vw;
@@ -60,14 +60,14 @@ const Link = styled.a`
 
 const Button = styled.button`
   width: 40%;
-  border: none;
+  border: none;   
   padding: 15px 20px;
   background-color: teal;
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
   &:disabled {
-    color: green;
+    color: #a61d1d;
     cursor: not-allowed;
   }
 `;
@@ -82,6 +82,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
+    console.log(photo);
     e.preventDefault();
     try {
       await AuthService.signup(name, email, password, gender, photo, birthDate).then(
@@ -110,11 +111,17 @@ const Register = () => {
           <Input type="password" name="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
           <div style={{ width: "100%", marginTop: "20px" }}>
             <input type="radio" name="gender" value="male" onChange={(e) => setGender("male")} /> Male
-            <input style={{ marginLeft: "20px"}} type="radio" name="gender" value="female" onChange={(e) => setGender("female")} /> Female
+            <input style={{ marginLeft: "20px" }} type="radio" name="gender" value="female" onChange={(e) => setGender("female")} /> Female
           </div>
-          <div  style={{ marginTop: "20px"}}>
-            <h3 style={{ color: "black"}}>Set Your Profile Picture</h3>
-            <Input type="file" accept="image/jpeg, image/png" onChange={(e) => setPhoto(e.target.value)} required />
+          <h3 style={{ color: "black" }}>Set Your Profile Picture</h3>
+          <div style={{ marginTop: "20px", display: "flex", alignItems: "center" }}>
+            <img src={photo} alt="" />
+            {/* <Input type="file" accept="image/jpeg, image/png" onChange={(e) => setPhoto(e.target.value)} required /> */}
+            <FileBase64
+              type="file"
+              multiple={false}
+              onDone={({ base64 }) => setPhoto(base64)}
+            />
           </div>
           <div style={{ width: "100%", marginTop: "20px" }}>
             <DatePicker onChange={setBirthDate} value={birthDate} />
@@ -123,7 +130,7 @@ const Register = () => {
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button type="submit">CREATE</Button>
+          <Button type="submit" disabled={!name || !email || !password || !birthDate || !gender || !photo}>{!name || !email || !password || !birthDate || !gender || !photo ? "Fill the Page" : "Submit"}</Button>
           <Link href="/login">Login</Link>
         </Form>
       </Wrapper>

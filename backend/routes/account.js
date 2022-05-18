@@ -15,16 +15,22 @@ router.get("/find/:id", authToken, async (req, res) => {
   }
 });
 
-router.patch("/find/:id", authToken, async (req, res) => {
+// Update User
+router.patch("/find/:id",  async (req, res) => {
+  console.log("1");
   try {
-    const update = await User.findOne({ _id: req.params.id });
-
+    const update = await User.findOne({ _id: req.params.id });    
+    console.log(update);
+    console.log("2");
     if (req.body.name) {
       update.name = req.body.name;
     }
 
-    if (req.body.password) {
+    if (req.body.email) {
       update.email = req.body.email;
+    }
+    if (req.body.password) {
+      update.password = req.body.password;
     }
 
     if (req.body.photo) {
