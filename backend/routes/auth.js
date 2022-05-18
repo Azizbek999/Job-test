@@ -23,6 +23,7 @@ const upload = multer({ storage: storage });
 
 // Register
 router.post("/register", async (req, res) => {
+
   const newUser = new User({
     name: req.body.name,
     email: req.body.email,
@@ -47,7 +48,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    // !user && res.status(401).json("Wrong User Name");
+    
     console.log(user);
     if (user) {
       const hashedPassword = CryptoJS.AES.decrypt(

@@ -36,6 +36,23 @@ const login = (email, password) => {
     });
 };
 
+const patch = (name, email, password, photo, id) => {
+  return axios
+    .patch(API_URL + "/account/find/:" + id +"?id="+id, {
+      name,
+      email,
+      password,
+      photo,
+    })
+    .then((response) => {
+      if (response.data.accessToken) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+
+      return response.data;
+    });
+};
+
 const logout = () => {
   localStorage.removeItem("user");
 };
@@ -48,6 +65,7 @@ const authService = {
   signup,
   login,
   logout,
+  patch,
   getCurrentUser,
 };
 

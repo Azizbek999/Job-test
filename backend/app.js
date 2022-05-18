@@ -5,8 +5,8 @@ import auth from "./routes/auth.js";
 import account from "./routes/account.js";
 import people from "./routes/people.js";
 import cors from "cors";
-
-import * as path from "path";
+import bodyParser from "body-parser";
+// import * as path from "path";
 dotenv.config({ path: "./config/config.env" });
 // const __dirname = path.resolve()
 
@@ -15,7 +15,15 @@ const app = express();
 connectDB();
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: 500000 }));
+
+// app.use(
+//   bodyParser.urlencoded({
+//     limit: "50mb",
+//     parameterLimit: 100000,
+//     extended: true,
+//   })
+// );
 
 // Static files
 // app.use(express.static(path.join(__dirname, "public")));
