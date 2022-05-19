@@ -1,9 +1,11 @@
 import { useState } from "react";
-import styled from "styled-components"
+import styled, { withTheme } from "styled-components"
 import DatePicker from 'react-date-picker';
 import { useNavigate } from "react-router";
 import AuthService from "../services/auth.service";
 import FileBase64 from 'react-file-base64';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Container = styled.div`
   width: 100vw;
@@ -81,31 +83,87 @@ const Register = () => {
   const [photo, setPhoto] = useState('');
   const navigate = useNavigate();
 
-  const handleSignup = async (e) => {
-    console.log(photo);
+  // const handleSignup = async (e) => {
+  //   console.log(photo);
+  //   e.preventDefault();
+
+  //   if (!name || !email || !password || !gender || !photo || !birthDate) {
+  //     toast.error('Please fill each input field!', {
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: false,
+  //       draggable: true,
+  //       progress: undefined,
+  //     });
+  //   }
+  //   else {
+  //     try {
+  //       await AuthService.signup(name, email, password, gender, photo, birthDate).then(
+  //         (response) => {
+  //           // check for token and user already exists with 200
+  //           //   console.log("Sign up successfully", response);
+  //           navigate("/people");
+  //           window.location.reload();
+  //         },
+  //         (error) => {
+  //           console.log(error);
+  //         }
+  //       );
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  // }
+
+  const handleClick = async (e) => {
     e.preventDefault();
-    try {
-      await AuthService.signup(name, email, password, gender, photo, birthDate).then(
-        (response) => {
-          // check for token and user already exists with 200
-          //   console.log("Sign up successfully", response);
-          navigate("/people");
-          window.location.reload();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    } catch (err) {
-      console.log(err);
+
+    if (!name || !email || !password || !gender || !photo || !birthDate) {
+      toast.error('Please fill each input field!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+      });
     }
-  };
+    else {
+      toast.loading('Please fill each input field!', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+      });
+      try {
+        await AuthService.signup(name, email, password, gender, photo, birthDate).then(
+          (response) => {
+            // check for token and user already exists with 200
+            //   console.log("Sign up successfully", response);
+            navigate("/people");
+            window.location.reload();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    };
+  }
 
   return (
     < Container >
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
-        <Form onSubmit={handleSignup}>
+        <Form >
           <Input placeholder="name" onChange={(e) => setName(e.target.value)} />
           <Input name="email" placeholder="email" onChange={(e) => setEmail(e.target.value)} />
           <Input type="password" name="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
@@ -130,10 +188,21 @@ const Register = () => {
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button type="submit" disabled={!name || !email || !password || !birthDate || !gender || !photo}>{!name || !email || !password || !birthDate || !gender || !photo ? "Fill the Page" : "Submit"}</Button>
+          <Button type="submit" onClick={handleClick}>Sign up</Button>
           <Link href="/login">Login</Link>
         </Form>
       </Wrapper>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </ Container >
   )
 }
