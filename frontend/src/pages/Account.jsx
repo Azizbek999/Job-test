@@ -6,13 +6,14 @@ import FileBase64 from "react-file-base64"
 
 
 const People = ({ currentUser }) => {
-  const [id, setId] = useState('')
+  const [idd, setId] = useState('')
   const [name, setName] = useState('')
   const [nameCurrent, setNameCurrent] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [birthDate, setBirthDate] = useState(new Date());
   const [photo, setPhoto] = useState('');
+  const [count, setCount] = useState(0);
   const navigate = useNavigate();
 
   // setName(currentUser.name)
@@ -27,6 +28,7 @@ const People = ({ currentUser }) => {
   }, []);
 
   const handleNavigate = (e) => {
+    console.log(name);
     e.preventDefault();
     navigate("/people");
   }
@@ -36,16 +38,17 @@ const People = ({ currentUser }) => {
   }
 
   const handlePatch = async (e) => {
-    console.log(id);
+    setCount(count + 1);
+    console.log(count);
     e.preventDefault();
     const id = currentUser._id
+    console.log("this - -- - " + id);
     try {
       await AuthService.patch(name, email, password, photo, id).then(
         (response) => {
           // check for token and user already exists with 200
-          //   console.log("Sign up successfully", response);
-          navigate("/people");
-          window.location.reload();
+          // navigate("/people");
+          // window.location.reload();
         },
         (error) => {
           console.log(error);
@@ -66,14 +69,14 @@ const People = ({ currentUser }) => {
       </nav>
 
       <div className="main">
-        <form onSubmit={handlePatch}>
+        <form>
           <div>
             <aside>
               <img src={photo} alt="" />
             </aside>
-            <div class="div-form-right">
+            <div className="div-form-right">
               <h2>{nameCurrent}</h2>
-              <div class="info-section">
+              <div className="info-section">
                 <FileBase64
                   type="file"
                   name="photo"
@@ -86,10 +89,10 @@ const People = ({ currentUser }) => {
           </div>
           <div>
             <aside>Name</aside>
-            <div class="div-form-right">
+            <div className="div-form-right">
               <input type="text" name="name" value={name} onChange={e => setName(e.target.value)} />
-              <div class="info-section">
-                <div class="info">
+              <div className="info-section">
+                <div className="info">
                   Help people discover your account by using the name you're
                   known by: either your full name, nickname, or business name.
                 </div>
@@ -98,49 +101,44 @@ const People = ({ currentUser }) => {
           </div>
           <div>
             <aside>Email</aside>
-            <div class="div-form-right">
+            <div className="div-form-right">
               <input
                 type="text"
                 name="email"
                 value={email} onChange={e => setEmail(e.target.value)}
               />
-              <div class="info-section">
+              <div className="info-section">
                 <h2>Personal Information</h2>
-                <div class="info">Provide your personal information, even if the account is used for a business, With email you can reset password.</div>
+                <div className="info">Provide your personal information, even if the account is used for a business, With email you can reset password.</div>
               </div>
             </div>
           </div>
           <div>
             <aside>Password</aside>
-            <div class="div-form-right">
+            <div className="div-form-right">
               <input
-                type="password"
-                name="password"
-                id=""
-                placeholder="Set a New Password"
+                type="password" name="password" placeholder="password" onChange={(e) => setPassword(e.target.value)}
               />
-              <div class="info-section">
-                <div class="info">If you don't want to change the password don't type anything here.</div>
+              <div className="info-section">
+                <div className="info">If you don't want to change the password don't type anything here.</div>
               </div>
             </div>
           </div>
-          <div>
+          {/* <div>
             <aside>Confirm Password</aside>
-            <div class="div-form-right">
+            <div className="div-form-right">
               <input
                 type="password"
-                name=""
-                id=""
                 placeholder="Confirm Password"
               />
             </div>
-          </div>
+          </div> */}
           <div>
             <aside></aside>
-            <div class="div-form-right btn-section">
-              <button class="submit">Change</button>
+            <div className="div-form-right btn-section">
+              <button className="submit" onClick={handlePatch}>Change</button>
               <div>
-                <button class="btn-secondary delete-account">Delete my account</button>
+                <button className="btn-secondary delete-account">Delete my account</button>
               </div>
             </div>
           </div>

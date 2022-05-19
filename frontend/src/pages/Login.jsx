@@ -1,10 +1,9 @@
 import styled from "styled-components"
 import { useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { login } from "../redux/apiCAlls";
 import { useNavigate } from "react-router";
-// import { publicRequest } from '../requestMethods';
 import AuthService from "../services/auth.service";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Container = styled.div`
   width: 100vw;
@@ -76,33 +75,75 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      await AuthService.login(email, password).then(
-        () => {
-          navigate("/people");
-          window.location.reload();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    } catch (err) {
-      console.log(err);
+    if (!email || !password) {
+      toast.error('Please fill each input field!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+      });
     }
-  };
+    else {
+      try {
+        toast.loading('Pending!', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+        });
+        await AuthService.login(email, password).then(
+          () => {
+            navigate("/people");
+            window.location.reload();
+          },
+          (error) => {
+            toast.error('User not found!', {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+            })
+            console.log(error);
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    };
+  }
 
   return (
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
-        <Form onSubmit={handleLogin}>
+        <Form>
           <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
           <Input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
-          <Button type="submit">LOGIN</Button>
+          <Button type="submit" onClick={handleLogin}>LOGIN</Button>
           {/* {error && <Error>Something went wrong...</Error>} */}
           <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
           <Link href="/">CREATE A NEW ACCOUNT</Link>
         </Form>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </Wrapper>
     </Container>
   );

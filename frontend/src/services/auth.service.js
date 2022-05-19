@@ -38,11 +38,12 @@ const login = (email, password) => {
 
 const patch = (name, email, password, photo, id) => {
   return axios
-    .patch(API_URL + "/account/find/:" + id +"?id="+id, {
+    .patch(API_URL + "/account/find/" + id, {
       name,
       email,
       password,
       photo,
+      id,
     })
     .then((response) => {
       if (response.data.accessToken) {
