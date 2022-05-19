@@ -6,7 +6,6 @@ import FileBase64 from "react-file-base64"
 
 
 const People = ({ currentUser }) => {
-  const [idd, setId] = useState('')
   const [name, setName] = useState('')
   const [nameCurrent, setNameCurrent] = useState('')
   const [email, setEmail] = useState('')
@@ -39,7 +38,6 @@ const People = ({ currentUser }) => {
 
   const handlePatch = async (e) => {
     setCount(count + 1);
-    console.log(count);
     e.preventDefault();
     const id = currentUser._id
     console.log("this - -- - " + id);
