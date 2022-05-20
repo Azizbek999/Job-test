@@ -8,8 +8,8 @@ const router = express.Router();
 router.get("/find/:id", authToken, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    const { password, ...others } = user._doc;
-    return res.status(200).json(others);
+    // const { password, ...others } = user._doc;
+    return res.status(200).json(user);
   } catch (err) {
     return res.status(500).json(err);
   }
