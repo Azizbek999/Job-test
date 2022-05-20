@@ -5,25 +5,35 @@ import "./account.css"
 import FileBase64 from "react-file-base64"
 
 
+const Account = () => {
 const People = ({ currentUser }) => {
   const [name, setName] = useState('')
   const [nameCurrent, setNameCurrent] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [birthDate, setBirthDate] = useState(new Date());
   const [photo, setPhoto] = useState('');
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState(undefined);
 
+  
   // setName(currentUser.name)
-
+  
   useEffect(() => {
-    setId(currentUser._id)
-    setName(currentUser.name)
-    setNameCurrent(currentUser.name)
-    setEmail(currentUser.email)
-    setBirthDate(currentUser.birthDate)
-    setPhoto(currentUser.photo)
+    const user = AuthService.getCurrentUser();
+    console.log("hahaha", user);
+    if (user) {
+      setCurrentUser(user);
+    }
+    setName(user.name)
+    setPassword(user.password)
+    setConfirmPassword(user.password)
+    setNameCurrent(user.name)
+    setEmail(user.email)
+    setBirthDate(user.birthDate)
+    setPhoto(user.photo)
   }, []);
 
   const handleNavigate = (e) => {
@@ -37,10 +47,11 @@ const People = ({ currentUser }) => {
   }
 
   const handlePatch = async (e) => {
-    setCount(count + 1);
+    // setCount(count + 1);
     e.preventDefault();
     const id = currentUser._id
     console.log("this - -- - " + id);
+    // if()
     try {
       await AuthService.patch(name, email, password, photo, id).then(
         (response) => {
@@ -115,22 +126,29 @@ const People = ({ currentUser }) => {
             <aside>Password</aside>
             <div className="div-form-right">
               <input
-                type="password" name="password" placeholder="password" onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                 name="password" 
+                 placeholder="password" 
+                 value={password}
+                 onChange={(e) => setPassword(e.target.value)}
               />
               <div className="info-section">
                 <div className="info">If you don't want to change the password don't type anything here.</div>
               </div>
             </div>
           </div>
-          {/* <div>
+          <div>
             <aside>Confirm Password</aside>
             <div className="div-form-right">
               <input
-                type="password"
+                type="text"
+                name="confirmPassword"
                 placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
-          </div> */}
+          </div>
           <div>
             <aside></aside>
             <div className="div-form-right btn-section">
@@ -146,4 +164,4 @@ const People = ({ currentUser }) => {
   )
 }
 
-export default People;
+export default Account;
