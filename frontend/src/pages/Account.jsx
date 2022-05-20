@@ -6,6 +6,7 @@ import FileBase64 from "react-file-base64"
 
 
 const Account = () => {
+const People = ({ currentUser }) => {
   const [name, setName] = useState('')
   const [nameCurrent, setNameCurrent] = useState('')
   const [email, setEmail] = useState('')
