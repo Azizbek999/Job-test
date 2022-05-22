@@ -42,7 +42,6 @@ const People = ({ currentUser }) => {
     // setCount(count + 1);
     e.preventDefault();
     const id = currentUser._id
-    console.log("this - -- - " + id);
     if (password === confirmPassword) {
       if (!name && !email) {
         try {
@@ -59,8 +58,6 @@ const People = ({ currentUser }) => {
         } catch (err) {
           console.log(err);
         }
-
-
       } else {
         toast.error("Name and Email can not be Empty.", {
           position: "top-center",
