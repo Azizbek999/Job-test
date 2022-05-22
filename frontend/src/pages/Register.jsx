@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styled, { withTheme } from "styled-components"
+import styled from "styled-components"
 import DatePicker from 'react-date-picker';
 import { useNavigate } from "react-router";
 import AuthService from "../services/auth.service";
@@ -29,7 +29,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-margin-top: 20px;
+margin-top: 80px;
   font-size: 24px;
   font-weight: 300;
 `;
@@ -83,48 +83,14 @@ const Register = () => {
   const [photo, setPhoto] = useState('');
   const navigate = useNavigate();
 
-  // const handleSignup = async (e) => {
-  //   console.log(photo);
-  //   e.preventDefault();
-
-  //   if (!name || !email || !password || !gender || !photo || !birthDate) {
-  //     toast.error('Please fill each input field!', {
-  //       position: "top-right",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: false,
-  //       draggable: true,
-  //       progress: undefined,
-  //     });
-  //   }
-  //   else {
-  //     try {
-  //       await AuthService.signup(name, email, password, gender, photo, birthDate).then(
-  //         (response) => {
-  //           // check for token and user already exists with 200
-  //           //   console.log("Sign up successfully", response);
-  //           navigate("/people");
-  //           window.location.reload();
-  //         },
-  //         (error) => {
-  //           console.log(error);
-  //         }
-  //       );
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  // }
-
   const handleClick = async (e) => {
     e.preventDefault();
 
     if (!name || !email || !password || !gender || !photo || !birthDate) {
       toast.error('Please fill each input field!', {
         position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
+        autoClose: 3000,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
@@ -132,9 +98,9 @@ const Register = () => {
       });
     }
     else {
-      toast.loading('Please fill each input field!', {
+      toast.loading('Registering please wait!', {
         position: "top-center",
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
@@ -173,7 +139,9 @@ const Register = () => {
           </div>
           <h3 style={{ color: "black" }}>Set Your Profile Picture</h3>
           <div style={{ marginTop: "20px", display: "flex", alignItems: "center" }}>
-            <img src={photo} alt="" />
+            <div style={{ flexShrink: 0, alignItems: "center" }}>
+              <img style={{ objectFit: "cover", marginRight: "20px"}} src={photo ? photo : "https://avatars.mds.yandex.net/i?id=d230be33021eb46895399ad7c4569ead-4901575-images-thumbs&n=13"} alt="" />
+            </div>
             {/* <Input type="file" accept="image/jpeg, image/png" onChange={(e) => setPhoto(e.target.value)} required /> */}
             <FileBase64
               type="file"

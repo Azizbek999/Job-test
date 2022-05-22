@@ -36,7 +36,13 @@ const App = () => {
         />
         <Route
           path="/account"
-          element={<Account currentUser={currentUser} />}
+          element={
+            currentUser ? (
+              <Account currentUser={currentUser} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route
           path="/people"

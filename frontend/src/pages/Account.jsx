@@ -1,9 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
+import DatePicker from 'react-date-picker';
 import { useState, useEffect } from "react";
 import "./account.css"
 import FileBase64 from "react-file-base64"
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Account = () => {
 const People = ({ currentUser }) => {
@@ -14,13 +16,9 @@ const People = ({ currentUser }) => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [birthDate, setBirthDate] = useState(new Date());
   const [photo, setPhoto] = useState('');
-  // const [count, setCount] = useState(0);
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(undefined);
 
-  
-  // setName(currentUser.name)
-  
   useEffect(() => {
     const user = AuthService.getCurrentUser();
     console.log("hahaha", user);
@@ -36,42 +34,76 @@ const People = ({ currentUser }) => {
     setPhoto(user.photo)
   }, []);
 
-  const handleNavigate = (e) => {
-    console.log(name);
-    e.preventDefault();
-    navigate("/people");
-  }
-
   const handleLogout = () => {
     AuthService.logout();
   }
 
-  const handlePatch = async (e) => {
+  const handlePatch = (e) => {
     // setCount(count + 1);
     e.preventDefault();
     const id = currentUser._id
     console.log("this - -- - " + id);
-    // if()
+    if (password === confirmPassword) {
+      try {
+        AuthService.patch(name, email, password, photo, id).then(
+          (response) => {
+            // check for token and user already exists with 200
+            // navigate("/people");
+            window.location.reload();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      toast.error("Both password should be the same.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
     try {
-      await AuthService.patch(name, email, password, photo, id).then(
+      toast.loading("Your account is deleting.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+      });
+      AuthService.deleteUser(currentUser._id).then(
         (response) => {
-          // check for token and user already exists with 200
-          // navigate("/people");
-          // window.location.reload();
         },
         (error) => {
           console.log(error);
         }
       );
+
     } catch (err) {
-      console.log(err);
     }
-  };
+    localStorage.removeItem("user");
+    localStorage.removeItem("users");
+    navigate("/login");
+    window.location.reload();
+  }
 
   return (
     < div className="account-main">
       <nav>
-        <a className="nav-link" onClick={handleNavigate}>People</a>
+        <Link className="nav-link" to={"/people"}>People</Link>
         <a href="/login" className="logout" onClick={handleLogout}>
           Logout
         </a>
@@ -81,7 +113,7 @@ const People = ({ currentUser }) => {
         <form>
           <div>
             <aside>
-              <img src={photo} alt="" />
+              <img  style={{ objectFit: "cover" }} src={photo} alt="" />
             </aside>
             <div className="div-form-right">
               <h2>{nameCurrent}</h2>
@@ -92,7 +124,6 @@ const People = ({ currentUser }) => {
                   multiple={false}
                   onDone={({ base64 }) => setPhoto(base64)}
                 />
-                {/* <button class="btn-secondary">Set a new Photo</button> */}
               </div>
             </div>
           </div>
@@ -127,10 +158,10 @@ const People = ({ currentUser }) => {
             <div className="div-form-right">
               <input
                 type="password"
-                 name="password" 
-                 placeholder="password" 
-                 value={password}
-                 onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                placeholder="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <div className="info-section">
                 <div className="info">If you don't want to change the password don't type anything here.</div>
@@ -141,7 +172,7 @@ const People = ({ currentUser }) => {
             <aside>Confirm Password</aside>
             <div className="div-form-right">
               <input
-                type="text"
+                type="password"
                 name="confirmPassword"
                 placeholder="Confirm Password"
                 value={confirmPassword}
@@ -150,15 +181,32 @@ const People = ({ currentUser }) => {
             </div>
           </div>
           <div>
+            <aside>Birth Date</aside>
+            <div className="div-form-right">
+              <DatePicker onChange={setBirthDate} value={typeof value !== Date ? new Date(birthDate) : birthDate} />
+            </div>
+          </div>
+          <div>
             <aside></aside>
             <div className="div-form-right btn-section">
               <button className="submit" onClick={handlePatch}>Change</button>
               <div>
-                <button className="btn-secondary delete-account">Delete my account</button>
+                <button onClick={handleDelete} className="btn-secondary delete-account">Delete my account</button>
               </div>
             </div>
           </div>
         </form>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </div>
     </ div >
   )

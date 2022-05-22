@@ -8,15 +8,15 @@ import "./Nav.css"
 const PeopleList = ({ currentUser }) => {
 
     const [users, setUsers] = useState([]);
-    // const [currentUser, setCurrentUser] = useState(undefined);
+    console.log(users);
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log(users);
         UserService.getAllPeople().then(
             (response) => {
-                setUsers(response.data.filter(element => element._id !== currentUser._id));
-                console.log("Users...");
-                console.log(users);
+                localStorage.setItem("users", JSON.stringify(response.data.filter(element => element._id !== currentUser._id)));
+                setUsers(JSON.parse(localStorage.getItem("users")))
             },
             (error) => {
                 console.log(".....", error.response);
@@ -27,8 +27,15 @@ const PeopleList = ({ currentUser }) => {
                     window.location.reload();
                 }
             }
-        );
+        )
     }, []);
+
+    useEffect(() => {
+        if (localStorage.getItem("users")) {
+            setUsers(JSON.parse(localStorage.getItem("users")))
+        }
+    }, [])
+
 
     const handleLogout = () => {
         AuthService.logout();
@@ -39,6 +46,11 @@ const PeopleList = ({ currentUser }) => {
         navigate("/account");
     }
 
+    const DoThis = () => {
+        window.location.reload()
+        console.log("dothis")
+    }
+
     return (
         <div className="people">
             <nav>
@@ -47,9 +59,8 @@ const PeopleList = ({ currentUser }) => {
                     Logout
                 </a>
             </nav>
-            {/* <button onClick={handleClick}>button</button> */}
             <h1>Here You can find All Users</h1>
-            {users.map((people) => <People people={people} key={people.id} />)}
+            {users.length && users.map((people) => <People people={people} key={people._id} />)}
         </div>
     )
 }
