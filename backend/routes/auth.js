@@ -38,7 +38,6 @@ router.post("/register", async (req, res) => {
   try {
     const savedUser = await newUser.save();
     return res.status(201).json(savedUser);
-    // console.log(savedUser);
   } catch (err) {
     return res.status(404).json(err);
   }
@@ -49,7 +48,6 @@ router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     
-    // console.log(user);
     if (user) {
       const hashedPassword = CryptoJS.AES.decrypt(
         user.password,

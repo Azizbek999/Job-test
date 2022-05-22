@@ -47,7 +47,8 @@ const patch = (name, email, password, photo, id) => {
       id,
     }, { headers: authHeader() })
     .then((response) => {
-      if (response.data.accessToken) {
+      if (response.data) {
+        localStorage.removeItem("userMe");
         localStorage.setItem("user", JSON.stringify(response.data));
       }
 

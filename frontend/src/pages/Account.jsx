@@ -44,19 +44,33 @@ const People = ({ currentUser }) => {
     const id = currentUser._id
     console.log("this - -- - " + id);
     if (password === confirmPassword) {
-      try {
-        AuthService.patch(name, email, password, photo, id).then(
-          (response) => {
-            // check for token and user already exists with 200
-            // navigate("/people");
-            window.location.reload();
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-      } catch (err) {
-        console.log(err);
+      if (!name && !email) {
+        try {
+          AuthService.patch(name, email, password, photo, id).then(
+            (response) => {
+              // check for token and user already exists with 200
+              // navigate("/people");
+              window.location.reload();
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+        } catch (err) {
+          console.log(err);
+        }
+
+
+      } else {
+        toast.error("Name and Email can not be Empty.", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } else {
       toast.error("Both password should be the same.", {
