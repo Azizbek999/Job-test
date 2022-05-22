@@ -17,17 +17,6 @@ connectDB();
 app.use(cors());
 app.use(express.json({ limit: 500000 }));
 
-// app.use(
-//   bodyParser.urlencoded({
-//     limit: "50mb",
-//     parameterLimit: 100000,
-//     extended: true,
-//   })
-// );
-
-// Static files
-// app.use(express.static(path.join(__dirname, "public")));
-
 //Routes
 app.use("/api/auth", auth);
 app.use("/api/account", account);

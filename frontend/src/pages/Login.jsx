@@ -9,8 +9,8 @@ const Container = styled.div`
   width: 100vw;
   height: 100vh;
   background: linear-gradient(
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
+      rgba(33, 31, 31, 0.5),
+      rgba(33, 31, 31, 0.5)
     ),
     url("https://static1.bigstockphoto.com/8/6/3/large1500/368557969.jpg")
       center;
@@ -88,15 +88,6 @@ const Login = () => {
     }
     else {
       try {
-        toast.loading('Pending!', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-        });
         await AuthService.login(email, password).then(
           () => {
             navigate("/people");

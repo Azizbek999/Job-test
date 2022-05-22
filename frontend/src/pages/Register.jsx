@@ -11,8 +11,8 @@ const Container = styled.div`
   width: 100vw;
   height: 100vh;
   background: linear-gradient(
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
+      rgba(33, 33, 33, 0.5),
+      rgba(48, 48, 48, 0.5)
     ),
     url("https://static1.bigstockphoto.com/8/6/3/large1500/368557969.jpg")
       center;
@@ -29,7 +29,6 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-margin-top: 80px;
   font-size: 24px;
   font-weight: 300;
 `;
@@ -49,7 +48,7 @@ const Input = styled.input`
 
 const Agreement = styled.span`
   font-size: 12px;
-  margin: 20px 0px;
+  margin: 10px 0px;
 `;
 
 const Link = styled.a`
@@ -98,15 +97,28 @@ const Register = () => {
       });
     }
     else {
-      toast.loading('Registering please wait!', {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-      });
+      let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (re.test(email)) {
+        toast.loading('Registering please wait!', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        toast.error('Please provide valid email!', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+        });
+      }
       try {
         await AuthService.signup(name, email, password, gender, photo, birthDate).then(
           (response) => {
@@ -140,7 +152,7 @@ const Register = () => {
           <h3 style={{ color: "black" }}>Set Your Profile Picture</h3>
           <div style={{ marginTop: "20px", display: "flex", alignItems: "center" }}>
             <div style={{ flexShrink: 0, alignItems: "center" }}>
-              <img style={{ objectFit: "cover", marginRight: "20px"}} src={photo ? photo : "https://avatars.mds.yandex.net/i?id=d230be33021eb46895399ad7c4569ead-4901575-images-thumbs&n=13"} alt="" />
+              <img style={{ objectFit: "cover", marginRight: "20px" }} src={photo ? photo : "https://avatars.mds.yandex.net/i?id=d230be33021eb46895399ad7c4569ead-4901575-images-thumbs&n=13"} alt="" />
             </div>
             {/* <Input type="file" accept="image/jpeg, image/png" onChange={(e) => setPhoto(e.target.value)} required /> */}
             <FileBase64
@@ -149,7 +161,7 @@ const Register = () => {
               onDone={({ base64 }) => setPhoto(base64)}
             />
           </div>
-          <div style={{ width: "100%", marginTop: "20px" }}>
+          <div style={{width: "100%"}}>
             <DatePicker onChange={setBirthDate} value={birthDate} />
           </div>
           <Agreement>
