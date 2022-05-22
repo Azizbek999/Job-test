@@ -55,8 +55,13 @@ const patch = (name, email, password, photo, id) => {
     });
 };
 
+const deleteUser = (id) => {
+  axios.delete(API_URL + "/account/find/" + id, { headers: authHeader() })
+};
+
 const logout = () => {
   localStorage.removeItem("user");
+  localStorage.removeItem("users");
 };
 
 const getCurrentUser = () => {
@@ -68,6 +73,7 @@ const authService = {
   login,
   logout,
   patch,
+  deleteUser,
   getCurrentUser,
 };
 

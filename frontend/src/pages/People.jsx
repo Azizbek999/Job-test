@@ -1,4 +1,3 @@
-import { useState } from "react"
 import "./People.css"
 
 const People = ({ people }) => {
@@ -25,7 +24,7 @@ const People = ({ people }) => {
     return (
         <div className={getColor(people)}>
             <div className="user" >
-                <img src={people.photo} alt="Avatar" />
+                <img style={{ objectFit: "cover" }}  src={people.photo} alt="Avatar" />
                 <div className="status">
                     <h2>{people.name}</h2>
                     <h3>
