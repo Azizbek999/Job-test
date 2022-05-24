@@ -8,7 +8,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Account = () => {
-const People = ({ currentUser }) => {
   const [name, setName] = useState('')
   const [nameCurrent, setNameCurrent] = useState('')
   const [email, setEmail] = useState('')
@@ -21,7 +20,6 @@ const People = ({ currentUser }) => {
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
-    console.log("hahaha", user);
     if (user) {
       setCurrentUser(user);
     }
@@ -39,16 +37,13 @@ const People = ({ currentUser }) => {
   }
 
   const handlePatch = (e) => {
-    // setCount(count + 1);
     e.preventDefault();
     const id = currentUser._id
     if (password === confirmPassword) {
-      if (!name && !email) {
+      if (name && email) {
         try {
           AuthService.patch(name, email, password, photo, id).then(
             (response) => {
-              // check for token and user already exists with 200
-              // navigate("/people");
               window.location.reload();
             },
             (error) => {
