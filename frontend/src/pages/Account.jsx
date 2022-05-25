@@ -37,8 +37,6 @@ const Account = () => {
   const handlePatch = (e) => {
     e.preventDefault();
     const id = currentUser._id
-    console.log("password: ", password);
-    console.log("confirmPassword: ", confirmPassword);
     if (password === confirmPassword) {
       if (name && email) {
         try {
