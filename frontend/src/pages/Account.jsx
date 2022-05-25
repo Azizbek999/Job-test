@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import DatePicker from 'react-date-picker';
 import { useState, useEffect } from "react";
-import "./account.css"
+import "./Account.css"
 import FileBase64 from "react-file-base64"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -24,8 +24,6 @@ const Account = () => {
       setCurrentUser(user);
     }
     setName(user.name)
-    setPassword(user.password)
-    setConfirmPassword(user.password)
     setNameCurrent(user.name)
     setEmail(user.email)
     setBirthDate(user.birthDate)
@@ -116,10 +114,10 @@ const Account = () => {
       </nav>
 
       <div className="main">
-        <form>
+        <form className="account-form">
           <div>
             <aside>
-              <img  style={{ objectFit: "cover" }} src={photo} alt="" />
+              <img style={{ objectFit: "cover" }} src={photo} alt="" />
             </aside>
             <div className="div-form-right">
               <h2>{nameCurrent}</h2>

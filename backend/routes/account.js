@@ -2,6 +2,7 @@ import express from "express";
 import User from "../models/User.js";
 import authToken from "../middleware/authenticateToken.js";
 import jwt from "jsonwebtoken";
+import CryptoJS from "crypto-js";
 
 const router = express.Router();
 
@@ -24,7 +25,11 @@ router.patch("/find/:id", authToken, async (req, res) => {
     if (!user) {
       
       return res.status(404).send({ message: `Cannot find with id: ${id}` });
-    } else {
+    } else {  
+      user.password = CryptoJS.AES.encrypt(
+        user.password,
+        process.env.PASS_SEC
+      ).toString();
       const changedUser = await user.save();
       const accessToken = jwt.sign(
         {

@@ -14,7 +14,8 @@ const Container = styled.div`
     ),
     url("https://static1.bigstockphoto.com/8/6/3/large1500/368557969.jpg")
       center;
-  background-size: cover;
+      background-repeat: no-repeat;
+      background-size: auto 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,6 +23,7 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   width: 25%;
+  min-width: 320px;
   padding: 20px;
   background-color: white;
 `;
@@ -33,6 +35,7 @@ const Title = styled.h1`
 
 const Form = styled.form`
   display: flex;
+  min-width: 320px;
   flex-direction: column;
 `;
 
@@ -94,7 +97,7 @@ const Login = () => {
             window.location.reload();
           },
           (error) => {
-            toast.error('User not found!', {
+            toast.error('Wrong Email or Password!', {
               position: "top-center",
               autoClose: 5000,
               hideProgressBar: false,

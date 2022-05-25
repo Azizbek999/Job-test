@@ -1,7 +1,6 @@
 import "./People.css"
 
 const People = ({ people }) => {
-    console.log(people);
     function getAge(dateString) {
         var today = new Date();
         var birthDate = new Date(dateString);
