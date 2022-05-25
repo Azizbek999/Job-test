@@ -8,7 +8,21 @@ const router = express.Router();
 router.get("/", authToken, async (req, res) => {
   try {
     const allUsers = await User.find();
-    return res.status(200).json(allUsers);
+    // allUsers = allUsers.map((a) => (delete a.password));
+    const Users = [];
+    allUsers.forEach((item) => {
+      Users.push({
+        _id: item._id,
+        name: item.name,
+        email: item.email,
+        photo: item.photo,
+        gender: item.gender,
+        birthDate: item.birthDate,
+      });
+    });
+    // console.log(Users);
+
+    return res.status(200).json(Users);
   } catch (err) {
     return res.status(500).json(err);
   }

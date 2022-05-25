@@ -11,7 +11,7 @@ button {
     justify-content: center;
 }
 
-form {
+.account-form {
     margin-top: 50px !important;
     max-width: 600px;
 }
@@ -58,16 +58,12 @@ form {
     border-radius: 50%;
 }
 
-.btn-change-profile-phto{
+.btn-change-profile-photo{
     background: none;
     border: none;
     color: #0095f6;
     cursor: pointer;
     font-weight: bold;
-}
-
-form {
-    margin: 16px 0;
 }
 
 
@@ -164,3 +160,14 @@ input.checkbox {
 }
 
 
+@media (max-width: 600px) {
+    .account-form {
+        width: 95vw;
+    }
+    aside  {
+        width: 90px;
+        padding: 0 12px;
+        text-align: end;
+        font-weight: bold;
+    }
+}

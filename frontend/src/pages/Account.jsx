@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import DatePicker from 'react-date-picker';
 import { useState, useEffect } from "react";
-import "./account.css"
+import "./Account.css"
 import FileBase64 from "react-file-base64"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,13 +20,10 @@ const Account = () => {
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
-    console.log("hahaha", user);
     if (user) {
       setCurrentUser(user);
     }
     setName(user.name)
-    setPassword(user.password)
-    setConfirmPassword(user.password)
     setNameCurrent(user.name)
     setEmail(user.email)
     setBirthDate(user.birthDate)
@@ -38,17 +35,15 @@ const Account = () => {
   }
 
   const handlePatch = (e) => {
-    // setCount(count + 1);
     e.preventDefault();
     const id = currentUser._id
-    console.log("this - -- - " + id);
+    console.log("password: ", password);
+    console.log("confirmPassword: ", confirmPassword);
     if (password === confirmPassword) {
-      if (!name && !email) {
+      if (name && email) {
         try {
           AuthService.patch(name, email, password, photo, id).then(
             (response) => {
-              // check for token and user already exists with 200
-              // navigate("/people");
               window.location.reload();
             },
             (error) => {
@@ -58,8 +53,6 @@ const Account = () => {
         } catch (err) {
           console.log(err);
         }
-
-
       } else {
         toast.error("Name and Email can not be Empty.", {
           position: "top-center",
@@ -123,10 +116,10 @@ const Account = () => {
       </nav>
 
       <div className="main">
-        <form>
+        <form className="account-form">
           <div>
             <aside>
-              <img  style={{ objectFit: "cover" }} src={photo} alt="" />
+              <img style={{ objectFit: "cover" }} src={photo} alt="" />
             </aside>
             <div className="div-form-right">
               <h2>{nameCurrent}</h2>

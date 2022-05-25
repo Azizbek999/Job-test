@@ -8,14 +8,12 @@ import "./Nav.css"
 const PeopleList = ({ currentUser }) => {
 
     const [users, setUsers] = useState([]);
-    console.log(users);
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(users);
         UserService.getAllPeople().then(
             (response) => {
-                localStorage.setItem("users", JSON.stringify(response.data.filter(element => element._id !== currentUser._id)));
+                localStorage.setItem("users", JSON.stringify(response.data.filter(element => element.email !== currentUser.email)));
                 setUsers(JSON.parse(localStorage.getItem("users")))
             },
             (error) => {

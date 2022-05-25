@@ -23,7 +23,6 @@ const upload = multer({ storage: storage });
 
 // Register
 router.post("/register", async (req, res) => {
-
   const newUser = new User({
     name: req.body.name,
     email: req.body.email,
@@ -47,7 +46,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    
+
     if (user) {
       const hashedPassword = CryptoJS.AES.decrypt(
         user.password,
@@ -67,7 +66,9 @@ router.post("/login", async (req, res) => {
         );
         const { password, ...others } = user._doc;
 
-        return res.status(200).json({ ...others, accessToken });
+        return res
+          .status(200)
+          .json({ ...others, accessToken });
       } else {
         return res.status(401).json("Wrong password");
       }
@@ -87,6 +88,5 @@ router.delete("/login", (req, res) => {
   refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
   return res.sendStatus(204);
 });
-
 
 export default router;

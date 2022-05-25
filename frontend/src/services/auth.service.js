@@ -1,7 +1,8 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = "http://localhost:4040/api";
+const API_URL = "http://localhost:5050/api";
+// const API_URL = "https://secure-mesa-30650.herokuapp.com/api";
 
 const signup = (name, email, password, gender, photo, birthDate) => {
   return axios
@@ -39,16 +40,19 @@ const login = (email, password) => {
 
 const patch = (name, email, password, photo, id) => {
   return axios
-    .patch(API_URL + "/account/find/" + id, {
-      name,
-      email,
-      password,
-      photo,
-      id,
-    }, { headers: authHeader() })
+    .patch(
+      API_URL + "/account/find/" + id,
+      {
+        name,
+        email,
+        password,
+        photo,
+        id,
+      },
+      { headers: authHeader() }
+    )
     .then((response) => {
-      if (response.data) {
-        localStorage.removeItem("userMe");
+      if (response.data.accessToken) {
         localStorage.setItem("user", JSON.stringify(response.data));
       }
 
@@ -57,7 +61,7 @@ const patch = (name, email, password, photo, id) => {
 };
 
 const deleteUser = (id) => {
-  axios.delete(API_URL + "/account/find/" + id, { headers: authHeader() })
+  axios.delete(API_URL + "/account/find/" + id, { headers: authHeader() });
 };
 
 const logout = () => {

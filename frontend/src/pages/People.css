@@ -62,3 +62,10 @@ h3 {
 .make-red:hover {
     background-color: #fec0ff;
 }
+
+
+@media (max-width:420px) {
+    .main-user {
+        width: 90vw;
+    }
+}

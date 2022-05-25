@@ -16,13 +16,15 @@ const Container = styled.div`
     ),
     url("https://static1.bigstockphoto.com/8/6/3/large1500/368557969.jpg")
       center;
-  background-size: cover;
+      background-repeat: no-repeat;
+      background-size: auto;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 const Wrapper = styled.div`
+  min-width: 320px;
   width: 25%;
   padding: 20px;
   background-color: white;
@@ -152,7 +154,7 @@ const Register = () => {
           <h3 style={{ color: "black" }}>Set Your Profile Picture</h3>
           <div style={{ marginTop: "20px", display: "flex", alignItems: "center" }}>
             <div style={{ flexShrink: 0, alignItems: "center" }}>
-              <img style={{ objectFit: "cover", marginRight: "20px" }} src={photo ? photo : "https://avatars.mds.yandex.net/i?id=d230be33021eb46895399ad7c4569ead-4901575-images-thumbs&n=13"} alt="" />
+              <img style={{ objectFit: "cover", marginRight: "20px", }} src={photo ? photo : "https://avatars.mds.yandex.net/i?id=d230be33021eb46895399ad7c4569ead-4901575-images-thumbs&n=13"} alt="" />
             </div>
             {/* <Input type="file" accept="image/jpeg, image/png" onChange={(e) => setPhoto(e.target.value)} required /> */}
             <FileBase64
@@ -161,7 +163,7 @@ const Register = () => {
               onDone={({ base64 }) => setPhoto(base64)}
             />
           </div>
-          <div style={{width: "100%"}}>
+          <div style={{ width: "100%" }}>
             <DatePicker onChange={setBirthDate} value={birthDate} />
           </div>
           <Agreement>
