@@ -15,7 +15,7 @@ const Container = styled.div`
     url("https://static1.bigstockphoto.com/8/6/3/large1500/368557969.jpg")
       center;
       background-repeat: no-repeat;
-      background-size: auto 100vh;
+      background-size: auto;
   display: flex;
   align-items: center;
   justify-content: center;
